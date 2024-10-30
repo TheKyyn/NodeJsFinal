@@ -88,4 +88,23 @@ const accessSharedFile = async (req, res) => {
     res.download(file.filepath, file.filename);
 };
 
-module.exports = { uploadFile, listFiles, getFile, deleteFile, createSharedLink, accessSharedFile };
+const getQuota = async (req, res) => {
+    const { userId } = req.user;
+
+    try {
+        const [rows] = await pool.query(
+            'SELECT quota_used FROM users WHERE id = ?',
+            [userId]
+        );
+        if (rows.length === 0) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        res.json({ quotaUsed: rows[0].quota_used, quotaMax: 2 * 1024 * 1024 * 1024 });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
+module.exports = { uploadFile, listFiles, getFile, deleteFile, createSharedLink, accessSharedFile, getQuota };

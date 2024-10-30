@@ -1,6 +1,6 @@
 const express = require('express');
 const multer = require('multer');
-const { uploadFile, listFiles, getFile, deleteFile, createSharedLink, accessSharedFile } = require('../controllers/fileController');
+const { uploadFile, listFiles, getFile, deleteFile, createSharedLink, accessSharedFile, getQuota } = require('../controllers/fileController');
 const authenticateToken = require('../middleware/authMiddleware');
 
 const router = express.Router();
@@ -23,6 +23,7 @@ router.post('/share/:fileId', authenticateToken, createSharedLink);
 router.get('/list', authenticateToken, listFiles);
 router.get('/:fileId', authenticateToken, getFile);
 router.get('/shared/:token', accessSharedFile);
+router.get('/quota', authenticateToken, getQuota);
 
 router.delete('/:fileId', authenticateToken, deleteFile);
 
