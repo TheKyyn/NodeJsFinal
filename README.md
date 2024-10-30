@@ -69,8 +69,8 @@ Le projet est divisé en deux dossiers principaux :
 
 Chaque partie du projet est également disponible indépendamment :
 
-- [Frontend](#)
-- [Backend](#)
+- [Frontend](https://github.com/TheKyyn/NodeJsTransferFront)
+- [Backend](https://github.com/TheKyyn/NodeJsTransfer)
 
 ## Contribuer
 
