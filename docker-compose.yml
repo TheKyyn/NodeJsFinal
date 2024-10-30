@@ -3,7 +3,8 @@ version: '3.8'
 services:
   backend:
     build:
-      context: ./backend
+      context: ./backend/TP_NodeJS
+      dockerfile: Dockerfile
     container_name: file_server_backend
     ports:
       - "3000:3000"
@@ -16,10 +17,8 @@ services:
     image: mysql:8
     container_name: NodeJsDB
     environment:
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root_password
       MYSQL_DATABASE: NodeJsDB
-      MYSQL_USER: root
-      MYSQL_PASSWORD: root
     ports:
       - "3306:3306"
     volumes:
@@ -27,7 +26,8 @@ services:
 
   frontend:
     build:
-      context: ./frontend
+      context: ./frontend/tp_nodejs_front
+      dockerfile: Dockerfile
     container_name: file_server_frontend
     ports:
       - "8080:80"
