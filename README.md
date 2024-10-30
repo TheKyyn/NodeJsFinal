@@ -7,8 +7,8 @@
 
 1. Clonez le projet :
    ```bash
-   git clone https://github.com/votre-nom-utilisateur/file-server-project.git
-   cd file-server-project
+   git clone https://github.com/votre-nom-utilisateur/NodeJsFinal.git
+   cd NodeJsFinal
     ```
 2. Lancez les services avec Docker Compose :
    ```bash
