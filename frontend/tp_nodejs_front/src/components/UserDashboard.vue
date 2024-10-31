@@ -1,11 +1,14 @@
 <template>
   <div>
     <h2>Tableau de bord utilisateur</h2>
-    <p>Interface en cours de développement.</p>
+    <button @click="logout" class="logout-btn">Déconnexion</button>
 
     <div class="quota">
       <h3>Quota d'espace utilisé</h3>
-      <p>{{ quotaUsed }} / {{ quotaMax }} ({{ quotaPercentage }}%)</p>
+      <div class="progress-bar">
+        <div :style="{ width: `${quotaPercentage}%` }"></div>
+      </div>
+      <p>{{ quotaPercentage }}% utilisé</p>
     </div>
 
     <div class="files-list">
@@ -25,9 +28,9 @@
           <td>{{ formatFileSize(file.filesize) }}</td>
           <td>{{ formatDate(file.upload_date) }}</td>
           <td>
-            <button @click="downloadFile(file.id)">Télécharger</button>
-            <button @click="deleteFile(file.id)">Supprimer</button>
-            <button @click="generateShareLink(file.id)">Partager</button>
+            <button @click="downloadFile(file.id)"><i class="fas fa-download"></i></button>
+            <button @click="deleteFile(file.id)"><i class="fas fa-trash"></i></button>
+            <button @click="generateShareLink(file.id)"><i class="fas fa-share-alt"></i></button>
           </td>
         </tr>
         </tbody>
@@ -62,8 +65,6 @@ export default {
         const quotaData = await quotaResponse.json();
         this.quotaUsed = quotaData.quotaUsed;
         this.quotaMax = quotaData.quotaMax;
-      } else {
-        console.error('Erreur lors de la récupération du quota');
       }
 
       const filesResponse = await fetch('http://localhost:3000/api/files/list', {
@@ -73,14 +74,16 @@ export default {
       });
       if (filesResponse.ok) {
         this.files = await filesResponse.json();
-      } else {
-        console.error('Erreur lors de la récupération des fichiers');
       }
     } catch (error) {
       console.error('Erreur lors de la requête:', error);
     }
   },
   methods: {
+    logout() {
+      localStorage.removeItem('token');
+      this.$emit('authenticated', false);
+    },
     formatFileSize(size) {
       const kb = size / 1024;
       const mb = kb / 1024;
@@ -168,7 +171,40 @@ export default {
 </script>
 
 <style scoped>
-.quota, .files-list {
+.quota {
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  text-align: center;
+}
+.logout-btn {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.logout-btn:hover {
+  background-color: #d43f3f;
+}
+.progress-bar {
+  position: relative;
+  height: 20px;
+  background-color: #e5e5e5;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+}
+.progress-bar div {
+  height: 100%;
+  background-color: #4f46e5;
+  transition: width 0.4s ease;
+}
+.files-list {
   margin-top: 1rem;
   padding: 1rem;
   border: 1px solid #ddd;
@@ -182,17 +218,17 @@ table {
 th, td {
   padding: 0.5rem;
   border: 1px solid #ddd;
+  text-align: center;
 }
 button {
   margin-right: 0.5rem;
   padding: 0.25rem 0.5rem;
   border: none;
-  border-radius: 4px;
+  background: none;
   cursor: pointer;
-  background-color: #4f46e5;
-  color: white;
+  font-size: 1.2em;
 }
 button:hover {
-  background-color: #4338ca;
+  color: #4338ca;
 }
 </style>

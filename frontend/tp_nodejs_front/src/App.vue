@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <AuthComponent v-if="!isAuthenticated" @authenticated="handleAuth" />
-    <UserDashboard v-else />
+    <UserDashboard v-else @authenticated="handleAuth" />
   </div>
 </template>
 
@@ -22,6 +22,9 @@ export default {
   methods: {
     handleAuth(status) {
       this.isAuthenticated = status;
+      if (!status) {
+        localStorage.removeItem('token');
+      }
     },
   },
 };
