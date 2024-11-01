@@ -24,6 +24,8 @@
 </template>
 
 <script>
+const backendURL = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'http://backend:3000';
+
 export default {
   name: "AuthComponent",
   data() {
@@ -40,7 +42,7 @@ export default {
     },
     async login() {
       try {
-        const response = await fetch('http://localhost:3000/api/auth/login', {
+        const response = await fetch(`${backendURL}/api/auth/login`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -63,12 +65,13 @@ export default {
     },
     async register() {
       try {
-        const response = await fetch("http://backend:3000/api/auth/register", {
+        const response = await fetch(`${backendURL}/api/auth/register`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
+            username: this.username,
             email: this.email,
             password: this.password,
           }),

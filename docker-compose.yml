@@ -20,7 +20,7 @@ services:
       MYSQL_ROOT_PASSWORD: root_password
       MYSQL_DATABASE: NodeJsDB
     ports:
-      - "3306:3306"
+      - "3307:3306"
     volumes:
       - mysql_data:/var/lib/mysql
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
@@ -31,7 +31,7 @@ services:
       dockerfile: Dockerfile
     container_name: file_server_frontend
     ports:
-      - "8080:80"
+      - "8081:80"
     depends_on:
       - backend
 
