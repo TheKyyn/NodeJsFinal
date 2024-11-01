@@ -63,13 +63,12 @@ export default {
     },
     async register() {
       try {
-        const response = await fetch('http://localhost:3000/api/auth/register', {
-          method: 'POST',
+        const response = await fetch("http://backend:3000/api/auth/register", {
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            username: this.username,
             email: this.email,
             password: this.password,
           }),
